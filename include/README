@@ -1,0 +1,1 @@
+This folder should contain `credentials.h` header file. It should be configured with your WiFi SSID and passphrase, as well as your Home Assistant credentials.

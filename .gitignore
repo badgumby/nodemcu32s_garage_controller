@@ -1,0 +1,4 @@
+.pio
+.vscode
+.DS_store
+include/credentials.h
