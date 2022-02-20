@@ -8,8 +8,8 @@ const int DOOR_1_PIN = 16; // Magnetic reed switch
 const int DOOR_2_PIN = 17; // Magnetic reed switch
 const int LED_1_PIN = 21; // LED used for Door 1
 const int LED_2_PIN = 22; // LED used for Door 2
-const int RELAY_1_PIN = 2; // Relay to toggle Door 1
-const int RELAY_2_PIN = 4; // Relay to toggle Door 2
+const int RELAY_1_PIN = 32; // Relay to toggle Door 1
+const int RELAY_2_PIN = 33; // Relay to toggle Door 2
 
 // Default states (0 = Closed, 1 = Open, 2 = Fetch new state)
 int DOOR_1_STATE = 0;
