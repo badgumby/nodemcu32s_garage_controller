@@ -56,7 +56,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       delay(500); // Wait .5 seconds
       digitalWrite(RELAY_1_PIN,LOW); // Turn off relay for Door 1
       client.publish(DOOR_1_POS_TOPIC, "0"); // Notify MQTT broker door should be closed
-      delay(2000); // Wait 2 seconds
+      delay(12000); // Wait 12 seconds for door to close
       LAST_DOOR_1_STATE = 2; // Reset door state so void Loop can fetch new state
     }
     // If message is to open, and the door is currently closed
@@ -75,7 +75,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       delay(500);
       digitalWrite(RELAY_2_PIN,LOW); // Turn on relay for Door 2
       client.publish(DOOR_2_POS_TOPIC, "0"); // Notify MQTT broker door should be closed
-      delay(2000); // Wait 2 seconds
+      delay(12000); // Wait 12 seconds for door to close
       LAST_DOOR_2_STATE = 2; // Reset door state so void Loop can fetch new state
     }
     // If message is to open, and the door is currently closed

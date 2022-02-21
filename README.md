@@ -9,8 +9,8 @@ There are multiple things connected to this control board, with more to be added
 - Two magnetic reed switches
   - Similar item on Amazon: [Gikfun MC-38 Wired Door Sensor Magnetic Switch](https://www.amazon.com/dp/B0154PTDFI?psc=1&ref=ppx_yo2_dt_b_product_details)
 
-- Two 3mm green LEDs pre-soldered 460 ohm resistors
-  - Similar item, but white, on Amazon: [KeeYees 60Pcs 3mm Pre Wired LED](https://www.amazon.com/KeeYees-Diodes-Plastic-Mounting-Holders/dp/B07M9YT8C8/ref=sr_1_3?crid=1WI4HWRRCNXY3&keywords=3mm+5v+led&qid=1645209466&s=industrial&sprefix=3mm+5v+led%2Cindustrial%2C95&sr=1-3)
+- Two 5mm green LEDs (you can use pre-soldered LEDs with resistors, I believe mine were 460 ohm.)
+  - Similar item on Amazon: [EDGELEC 56pcs (7 Colors x 8pcs)](https://www.amazon.com/EDGELEC-LED-Emitting-Assorted-Warm-White/dp/B07W4H66LR/)
 
 - One 2-channel 5VDC relay module (high trigger)
   - Similar item on Amazon: [2 pcs 5V 2 Channel DC 5V Relay Module with Optocoupler High/Low Level Trigger](https://www.amazon.com/dp/B079FGPC9Y?psc=1&ref=ppx_yo2_dt_b_product_details)
