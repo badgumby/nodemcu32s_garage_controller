@@ -34,4 +34,4 @@ These are other things that I will be using in this project.
 
 ![case_design_v1.png](/images/case_design_v1.png "Fusion 360 model - v1")
 
-In this project, you will find the [STL files](/Enclosure/STL/) for the top and bottom of the case, as well as, the [Fusion 360 model](/Enclosure/Fusion 360/) file. These can be used to 3D print the enclosure, or can be modified to fit your own project. It was designed around the 7cm x 9cm PCB linked in the [Additional Materials](#additional-materials) section above.
+In this project, you will find the [STL files](/Enclosure/STL/) for the top and bottom of the case, as well as, the [Fusion 360 model](/Enclosure/Fusion%20360/) file. These can be used to 3D print the enclosure, or can be modified to fit your own project. It was designed around the 7cm x 9cm PCB linked in the [Additional Materials](#additional-materials) section above.
