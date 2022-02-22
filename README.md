@@ -17,8 +17,6 @@ There are multiple things connected to this control board, with more to be added
 - One 2-channel 5VDC relay module (high trigger)
   - Similar item on Amazon: [2 pcs 5V 2 Channel DC 5V Relay Module with Optocoupler High/Low Level Trigger](https://www.amazon.com/dp/B079FGPC9Y?psc=1&ref=ppx_yo2_dt_b_product_details)
 
----
-
 ## Additional Materials
 
 These are other things that I will be using in this project.
@@ -34,15 +32,11 @@ These are other things that I will be using in this project.
 - 3D printer filament
   - The case for this project has been 3D printed, and I have provided the models along with the codebase. Please see the [Enclosure](#enclosure) section below.
 
----
-
 ## Schematic
 
 ![schematic.png](/images/schematic.png "Basic Schematic")
 
 Here is the schematic (created using Fritzing). Please note, the schematic does not have any resistors for the LEDs. This is because the LEDs I am using are pre-wired, and already have the correct resistors added for this voltage/amperage. Just don't forget to add some to your LEDs if you are not using pre-wired LEDs.
-
----
 
 ## Enclosure
 
