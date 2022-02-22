@@ -26,11 +26,24 @@ const char *DOOR_2_POS_TOPIC = "gumby_garage/door_2_pos"; // Position of Door 1
 const char *DOOR_1_RELAY_TOPIC = "gumby_garage/door_1_toggle"; // Toggle door open/close
 const char *DOOR_2_RELAY_TOPIC = "gumby_garage/door_2_toggle"; // Toggle door open/close
 
+// Door position variables
+const char *OPEN = "100";
+const char *CLOSE = "0";
+
 // Setup WiFi client
 WiFiClient wclient;
 // Setup MQTT client
 PubSubClient client(wclient);
 bool state=0;
+
+// Function to toggle the doors
+void ToggleDoor(int DOOR_RELAY, int WAIT, const char* TOPIC, const char* POSITION) {
+  digitalWrite(DOOR_RELAY,HIGH); // Turn on relay
+  delay(500); // Wait .5 seconds
+  digitalWrite(DOOR_RELAY,LOW); // Turn off relay
+  client.publish(TOPIC, POSITION); // Notify MQTT broker door should be closed
+  delay(WAIT); // Wait for door to act
+}
 
 void callback(char* topic, byte* payload, unsigned int length) {
   // Fetch current door states
@@ -40,7 +53,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // Print topic and message to serial
   Serial.print("Topic: ");
   Serial.println(topic);
-  Serial.print("Message:");
+  Serial.print("Message: ");
   // Convert message from char* to string
   String message;
   for (int i = 0; i < length; i++) {
@@ -52,39 +65,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
   if (strcmp(topic, "gumby_garage/door_1_toggle")==0) {
     // If message is to close, and the door is currently open
     if(message == "close" && DOOR_1_STATE == 1) {
-      digitalWrite(RELAY_1_PIN,HIGH); // Turn on relay for Door 1
-      delay(500); // Wait .5 seconds
-      digitalWrite(RELAY_1_PIN,LOW); // Turn off relay for Door 1
-      client.publish(DOOR_1_POS_TOPIC, "0"); // Notify MQTT broker door should be closed
-      delay(12000); // Wait 12 seconds for door to close
+      ToggleDoor(RELAY_1_PIN, 15000, DOOR_1_POS_TOPIC, CLOSE);
       LAST_DOOR_1_STATE = 2; // Reset door state so void Loop can fetch new state
     }
     // If message is to open, and the door is currently closed
     if(message == "open" && DOOR_1_STATE != 1) {
-      digitalWrite(RELAY_1_PIN,HIGH); // Turn on relay for Door 1
-      delay(500); // Wait .5 seconds
-      digitalWrite(RELAY_1_PIN,LOW); // Turn off relay for Door 1
-      client.publish(DOOR_1_POS_TOPIC, "100"); // Notify MQTT broker door should be open
-      delay(2000); // Wait 2 seconds
+      ToggleDoor(RELAY_1_PIN, 2000, DOOR_1_POS_TOPIC, OPEN);
       LAST_DOOR_1_STATE = 2; // Reset door state so void Loop can fetch new state
     } 
   } else if (strcmp(topic, "gumby_garage/door_2_toggle")==0) {
     // If message is to close, and the door is currently open
     if(message == "close" && DOOR_2_STATE == 1) {
-      digitalWrite(RELAY_2_PIN,HIGH); // Turn on relay for Door 2
-      delay(500);
-      digitalWrite(RELAY_2_PIN,LOW); // Turn on relay for Door 2
-      client.publish(DOOR_2_POS_TOPIC, "0"); // Notify MQTT broker door should be closed
-      delay(12000); // Wait 12 seconds for door to close
+      ToggleDoor(RELAY_2_PIN, 15000, DOOR_2_POS_TOPIC, CLOSE);
       LAST_DOOR_2_STATE = 2; // Reset door state so void Loop can fetch new state
     }
     // If message is to open, and the door is currently closed
     if(message == "open" && DOOR_2_STATE != 1) {
-      digitalWrite(RELAY_2_PIN,HIGH); // Turn on relay for Door 2
-      delay(500); // Wait .5 seconds
-      digitalWrite(RELAY_2_PIN,LOW); // Turn off relay for Door 2
-      client.publish(DOOR_2_POS_TOPIC, "100"); // Notify MQTT broker door should be open
-      delay(2000); // Wait 2 seconds
+      ToggleDoor(RELAY_2_PIN, 2000, DOOR_2_POS_TOPIC, OPEN);
       LAST_DOOR_2_STATE = 2; // Reset door state so void Loop can fetch new state
     }
   } else if (strcmp(topic, "gumby_garage/refresh_status")==0) {
