@@ -1,6 +1,6 @@
 # NodeMCU-32s Garage Controller
 
-![controller](/images/controller.jpg | width=400)
+![](/images/controller.jpg|width=400px)
 
 This project is still a WIP, so the code is yet to be optimized. The goal is to turn my two regular garage doors into "smart" garage doors. This controller will be the base platform using a NodeMCU-32s (or similarly cloned SoC).
   
