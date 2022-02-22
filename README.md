@@ -17,6 +17,8 @@ There are multiple things connected to this control board, with more to be added
 - One 2-channel 5VDC relay module (high trigger)
   - Similar item on Amazon: [2 pcs 5V 2 Channel DC 5V Relay Module with Optocoupler High/Low Level Trigger](https://www.amazon.com/dp/B079FGPC9Y?psc=1&ref=ppx_yo2_dt_b_product_details)
 
+---
+
 ## Additional Materials
 
 These are other things that I will be using in this project.
@@ -32,14 +34,71 @@ These are other things that I will be using in this project.
 - 3D printer filament
   - The case for this project has been 3D printed, and I have provided the models along with the codebase. Please see the [Enclosure](#enclosure) section below.
 
+---
+
 ## Schematic
 
 ![schematic.png](/images/schematic.png "Basic Schematic")
 
 Here is the schematic (created using Fritzing). Please note, the schematic does not have any resistors for the LEDs. This is because the LEDs I am using are pre-wired, and already have the correct resistors added for this voltage/amperage. Just don't forget to add some to your LEDs if you are not using pre-wired LEDs.
 
+---
+
 ## Enclosure
 
 ![case_design_v2.png](/images/case_design_v2.png "Fusion 360 model - v2")
 
 In this project, you will find the [STL files](/Enclosure/STL/) for the top and bottom of the case, as well as, the [Fusion 360 model](/Enclosure/Fusion%20360/) file. These can be used to 3D print the enclosure, or can be modified to fit your own project. It was designed around the 7cm x 9cm PCB linked in the [Additional Materials](#additional-materials) section above.
+
+### 3D Print Settings
+
+---
+
+I have a Creality Ender 3 v2 with an upgraded Micro Swiss all-metal hotend, and these are the settings I used to print the enclosure (and most other things) in the [Cura slicing software](https://ultimaker.com/software/ultimaker-cura).
+
+- Quality
+  - Layer Height: 0.16 mm
+  - Initial Layer Height: 0.2 mm
+  - Line Width: 0.4 mm
+  - Initial Layer Line Width: 100%
+- Walls
+  - Wall Thickness: 1.2 mm
+    - Wall Line Count 3
+  - Optimize Wall Printing Order: YES
+  - Fill Gaps Between Walls: Everywhere
+  - Horizontal Expansion: 0 mm
+- Top/Bottom
+  - Top/Bottom Thickness: 0.84 mm
+  - Monotronic Top/Bottom Order: NO
+  - Enable Ironing: NO
+- Infill
+  - Infill Density: 15%
+    - Infill Line Distance 8.0 mm
+  - Infill Pattern: Cubic
+- Material (PLA)
+  - Printing Temperature: 200° C
+  - Build Plate Temperature: 60° C
+- Speed
+  - Print Speed: 50 mm/s
+    - Infill Speed: 50 mm/s
+    - Wall Speed: 25 mm/s
+  - Travel Speed: 150 mm/s
+  - Initial Layer Speed: 20 mm/s
+- Travel
+  - Enable Retraction: YES
+  - Retract Layer Change: NO
+  - Retraction Distance: 5 mm
+  - Retraction Speed: 45 mm/s
+  - Avoid Printed Parts When Traveling: YES
+  - Avoid Supports When Traveling: YES
+  - Travel Avoid Distance: 0.625 mm
+  - Z Hop When Retracted: NO
+- Cooling
+  - Enable Print Cooling: YES
+  - Fan Speed 100%
+  - Regular/Maximum Fan Speed Threshold: 10s
+  - Life Head: NO
+- Support
+  - Generate Support: NO
+- Build Plate Adhesion
+  - Build Plate Adhesion Type: None
