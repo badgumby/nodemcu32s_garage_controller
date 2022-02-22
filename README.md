@@ -32,6 +32,12 @@ These are other things that I will be using in this project.
 - 3D printer filament
   - The case for this project has been 3D printed, and I have provided the models along with the codebase. Please see the [Enclosure](#enclosure) section below.
 
+## Schematic
+
+![schematic.png](/images/schematic.png "Basic Schematic")
+
+Here is the schematic (created using Fritzing). Please note, the schematic does not have any resistors for the LEDs. This is because the LEDs I am using are pre-wired, and already have the correct resistors added for this voltage/amperage. Just don't forget to add some to your LEDs if you are not using pre-wired LEDs.
+
 ## Enclosure
 
 ![case_design_v2.png](/images/case_design_v2.png "Fusion 360 model - v2")
