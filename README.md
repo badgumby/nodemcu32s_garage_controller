@@ -28,7 +28,7 @@ These are other things that I will be using in this project.
   - Similar item set on Amazon: [ELEGOO 32 Pcs Double Sided PCB Board Prototype Kit](https://www.amazon.com/dp/B072Z7Y19F?psc=1&ref=ppx_yo2_dt_b_product_details)
 
 - 3D printer filament
-  - I will be 3D printing an enclosure for this and will add it to the project once complete.
+  - The case for this project has been 3D printed, and I have provided the models along with the codebase. Please see the [Enclosure](##enclosure) section below.
 
 ## Enclosure
 
