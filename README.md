@@ -3,11 +3,17 @@
 <img src="/images/controller.jpg" width=600px>
 
 This project is still a WIP, so the code is yet to be optimized. The goal is to turn my two regular garage doors into "smart" garage doors. This controller will be the base platform using a NodeMCU-32s (or similarly cloned SoC).
-  
-## Sensors/Devices Attached
- 
-There are multiple things connected to this control board, with more to be added in the future. 
-  
+
+## Materials
+
+These are the items you may need to purchase to build this project.
+
+### Devices/Sensors
+
+- ESP32 Development Board
+  - I used this one [KeeYees Development Board - ESP-WROOM-32 Chip](https://www.amazon.com/dp/B07QCP2451?psc=1&ref=ppx_yo2_dt_b_product_details)
+  - But I also have this one, and it is better [DOIT DEVIT V1 ESP32-WROOM-32 Development Board](https://www.amazon.com/dp/B084KWNMM4?psc=1&ref=ppx_yo2_dt_b_product_details)
+
 - Two magnetic reed switches
   - Similar item on Amazon: [Gikfun MC-38 Wired Door Sensor Magnetic Switch](https://www.amazon.com/dp/B0154PTDFI?psc=1&ref=ppx_yo2_dt_b_product_details)
 
@@ -17,9 +23,7 @@ There are multiple things connected to this control board, with more to be added
 - One 2-channel 5VDC relay module (high trigger)
   - Similar item on Amazon: [2 pcs 5V 2 Channel DC 5V Relay Module with Optocoupler High/Low Level Trigger](https://www.amazon.com/dp/B079FGPC9Y?psc=1&ref=ppx_yo2_dt_b_product_details)
 
-## Additional Materials
-
-These are other things that I will be using in this project.
+### Misc Materials
 
 - Speaker wire
   - Run from the relay to the garage door button sockets.
@@ -42,7 +46,7 @@ Here is the schematic (created using Fritzing). Please note, the schematic does 
 
 ![case_design_v2.png](/images/case_design_v2.png "Fusion 360 model - v2")
 
-In this project, you will find the [STL files](/enclosure/STL/) for the top and bottom of the case, as well as, the [Fusion 360 model](/enclosure/Fusion%20360/) file. These can be used to 3D print the enclosure, or can be modified to fit your own project. It was designed around the 7cm x 9cm PCB linked in the [Additional Materials](#additional-materials) section above.
+In this project, you will find the [STL files](/enclosure/STL/) for the top and bottom of the case, as well as, the [Fusion 360 model](/enclosure/Fusion%20360/) file. These can be used to 3D print the enclosure, or can be modified to fit your own project. It was designed around the 7cm x 9cm PCB linked in the [Misc Materials](#misc-materials) section above.
 
 ### 3D Print Settings
 
