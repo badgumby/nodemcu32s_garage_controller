@@ -1,0 +1,62 @@
+alias: Garage Door - Status (10:00 PM)
+description: ''
+trigger:
+  - platform: time
+    at: '22:00:00'
+condition:
+  - condition: template
+    value_template: >-
+      {% if is_state('cover.garage_door_1', 'open') or
+      is_state('cover.garage_door_2', 'open') %}true{% endif %}
+action:
+  - service: notify.mobile_app_redacted
+    data:
+      message: Garage Doors are open. Do you want to close them?
+      data:
+        actions:
+          - action: Close_Garage_Doors
+            title: Close Garage Doors
+          - action: Leave_Doors_Open
+            title: Leave Open
+  - wait_for_trigger:
+      - platform: event
+        event_type: mobile_app_notification_action
+        event_data:
+          action: Close_Garage_Doors
+      - platform: event
+        event_type: mobile_app_notification_action
+        event_data:
+          action: Leave_Doors_Open
+    continue_on_timeout: true
+    timeout: '60'
+  - choose:
+        # Received action to close the garage doors
+      - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger.event.data.action == "Close_Garage_Doors" }}'
+        sequence:
+          - service: cover.close_cover
+            target:
+              area_id: garage
+            data: {}
+        # Received action to leave garage doors open
+      - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger.event.data.action == "Leave_Doors_Open" }}'
+        sequence:
+          - service: notify.mobile_app_redacted
+            data:
+              message: Leaving doors open
+        # Did not receive a response from mobile app. Closing doors automatically
+      - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger == None }}'
+        sequence:
+          - service: cover.close_cover
+            data: {}
+            target:
+              area_id: garage
+          - service: notify.mobile_app_redacted
+            data:
+              message: No response. Closing garage doors.
+mode: single
