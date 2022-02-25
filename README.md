@@ -42,7 +42,7 @@ Here is the schematic (created using Fritzing). Please note, the schematic does 
 
 ![case_design_v2.png](/images/case_design_v2.png "Fusion 360 model - v2")
 
-In this project, you will find the [STL files](/Enclosure/STL/) for the top and bottom of the case, as well as, the [Fusion 360 model](/Enclosure/Fusion%20360/) file. These can be used to 3D print the enclosure, or can be modified to fit your own project. It was designed around the 7cm x 9cm PCB linked in the [Additional Materials](#additional-materials) section above.
+In this project, you will find the [STL files](/enclosure/STL/) for the top and bottom of the case, as well as, the [Fusion 360 model](/enclosure/Fusion%20360/) file. These can be used to 3D print the enclosure, or can be modified to fit your own project. It was designed around the 7cm x 9cm PCB linked in the [Additional Materials](#additional-materials) section above.
 
 ### 3D Print Settings
 
@@ -96,3 +96,33 @@ I have a Creality Ender 3 v2 with an upgraded Micro Swiss all-metal hotend, and 
   - Generate Support: NO
 - Build Plate Adhesion
   - Build Plate Adhesion Type: None
+
+## Home Assistant Configuration
+
+To use this controller with [Home Assistant](https://home-assistant.io) you will need to configure an MQTT Broker. Here is a guide on configuring the integrated [MQTT Broker](https://www.home-assistant.io/docs/mqtt/broker/).
+
+Once you have configured an MQTT Broker for use in Home Assistant, you will need to add content below to your `configuration.yaml`, then restart Home Assistant.
+
+```yaml
+cover:
+  - platform: mqtt
+    command_topic: "gumby_garage/door_1_toggle"
+    name: "Garage Door 1"
+    payload_close: "close"
+    payload_open: "open"
+    device_class: garage
+    position_topic: "gumby_garage/door_1_pos"
+    unique_id: "garage_door_1"
+  - platform: mqtt
+    command_topic: "gumby_garage/door_2_toggle"
+    name: "Garage Door 2"
+    payload_close: "close"
+    payload_open: "open"
+    device_class: garage
+    position_topic: "gumby_garage/door_2_pos"
+    unique_id: "garage_door_2"
+```
+
+Home Assistant should now be subscribed to the above topics, and will update the `cover.garage_door_1` and `cover.garage_door_2` objects with their statuses.
+
+These can now be used with the automations provided in the [automations.yaml](/home-assistant/automations.yaml) file.
