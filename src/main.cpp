@@ -3,6 +3,12 @@
 #include <PubSubClient.h> // Used for MQTT communication
 #include "credentials.h"  // Header file containing wifi and HA creds
 
+// If you don't want to WebSerial access, disable these headers, and any WebSerial print
+// Also remove 'ESP Async WebServer' and 'ayushsharma82/WebSerial @ ^1.1.0' from the platformio.ini file
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <WebSerial.h>
+
 // Sensor pins
 const int DOOR_1_PIN = 16; // Magnetic reed switch
 const int DOOR_2_PIN = 17; // Magnetic reed switch
@@ -45,21 +51,41 @@ void ToggleDoor(int DOOR_RELAY, int WAIT, const char* TOPIC, const char* POSITIO
   delay(WAIT); // Wait for door to act
 }
 
+// WebSerial server setup
+AsyncWebServer server(80);
+// WebSerial callback message
+void webSerialMsg(uint8_t *data, size_t len){
+  WebSerial.println("Received Data...");
+  String d = "";
+  for(int i=0; i < len; i++){
+    d += char(data[i]);
+  }
+  WebSerial.println(d);
+}
+
+// Print line to both Serial and WebSerial
+template<class TYPE>
+void DualSerial(TYPE MSG) {
+  WebSerial.println(MSG);
+  Serial.println(MSG);
+}
+
 void callback(char* topic, byte* payload, unsigned int length) {
   // Fetch current door states
   DOOR_1_STATE = digitalRead(DOOR_1_PIN);
   DOOR_2_STATE = digitalRead(DOOR_2_PIN);
 
   // Print topic and message to serial
-  Serial.print("Topic: ");
-  Serial.println(topic);
-  Serial.print("Message: ");
+  DualSerial("Topic: ");
+  DualSerial(topic);
+  DualSerial("Message: ");
+
   // Convert message from char* to string
   String message;
   for (int i = 0; i < length; i++) {
     message = message + (char)payload[i];
   }
-  Serial.println(message);
+  DualSerial(message);
 
   // Decision tree for received topic messages
   if (strcmp(topic, "gumby_garage/door_1_toggle")==0) {
@@ -85,18 +111,19 @@ void callback(char* topic, byte* payload, unsigned int length) {
       LAST_DOOR_2_STATE = 2; // Reset door state so void Loop can fetch new state
     }
   } else if (strcmp(topic, "gumby_garage/refresh_status")==0) {
-    Serial.print("Sending door state refresh...");
+    DualSerial("Sending door state refresh...");
     LAST_DOOR_1_STATE = 2; // Reset door state so void Loop can fetch new state
     LAST_DOOR_2_STATE = 2; // Reset door state so void Loop can fetch new state
   } else {
     // Listening to topic, but can't something went wrong
-    Serial.print("Error on topic: '");
-    Serial.print(topic);
-    Serial.print("' with message: ");
-    Serial.println(message);
+    DualSerial("Error on topic: '");
+    DualSerial(topic);
+    DualSerial("' with message: ");
+    DualSerial(message);
+
   }
  
-  Serial.println("-----------------------");
+  DualSerial("-----------------------");
  
 }
 
@@ -104,16 +131,16 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   // Loop until reconnected
   while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
+    DualSerial("Attempting MQTT connection...");
     // Attempt to connect
     if (client.connect(ID,HA_USER,HA_PASS)) {
-      Serial.println("connected");
-      Serial.println("Publishing to the following topics: ");
-      Serial.println(DOOR_1_POS_TOPIC);
-      Serial.println(DOOR_2_POS_TOPIC);
+      DualSerial("connected");
+      DualSerial("Publishing to the following topics: ");
+      DualSerial(DOOR_1_POS_TOPIC);
+      DualSerial(DOOR_2_POS_TOPIC);
 
     } else {
-      Serial.println(" try again in 5 seconds");
+      DualSerial(" try again in 5 seconds");
       // Wait 5 seconds before retrying
       delay(5000);
     }
@@ -122,7 +149,7 @@ void reconnect() {
   client.subscribe(REFRESH_LISTENER);
   client.subscribe(DOOR_1_RELAY_TOPIC);
   client.subscribe(DOOR_2_RELAY_TOPIC);
-  Serial.println("-----------------------");
+  DualSerial("-----------------------");
 }
 
 void initWiFi() {
@@ -141,9 +168,15 @@ void setup() {
   Serial.begin(115200);
   // Connect to wifi
   initWiFi();
+  // WebSerial startup
+  // Accessible at "<IP Address>/webserial" in browser
+  WebSerial.begin(&server);
+  WebSerial.msgCallback(webSerialMsg);
+  server.begin();
+  // Print IP to WebSerial
+  WebSerial.println(WiFi.localIP());
   // Print out the RSSI (in dB)
-  Serial.print("RSSI: ");
-  Serial.println(WiFi.RSSI());
+  DualSerial(WiFi.RSSI());
   // Set pin modes
   pinMode(DOOR_1_PIN, INPUT_PULLUP);
   pinMode(DOOR_2_PIN, INPUT_PULLUP);
@@ -175,11 +208,11 @@ void loop() {
   if (DOOR_1_STATE != LAST_DOOR_1_STATE) {
     if (DOOR_1_STATE == 1) {
       digitalWrite(LED_1_PIN, HIGH); // LED On
-      Serial.println("Door 1: open"); // Print status to serial monitor
+      DualSerial("Door 1: open"); // Print status to serial monitor
       client.publish(DOOR_1_POS_TOPIC, "100"); // MQTT Door 1 open
     } else {
       digitalWrite(LED_1_PIN, LOW); // LED Off
-      Serial.println("Door 1: closed"); // Print status to serial monitor
+      DualSerial("Door 1: closed"); // Print status to serial monitor
       client.publish(DOOR_1_POS_TOPIC, "0"); // MQTT Door 1 closed
     }
   }
@@ -188,11 +221,11 @@ void loop() {
   if (DOOR_2_STATE != LAST_DOOR_2_STATE) {
     if (DOOR_2_STATE == 1) {
       digitalWrite(LED_2_PIN, HIGH);  // LED On
-      Serial.println("Door 2: open"); // Print status to serial monitor
+      DualSerial("Door 2: open"); // Print status to serial monitor
       client.publish(DOOR_2_POS_TOPIC, "100"); // MQTT Door 2 open
     } else {
       digitalWrite(LED_2_PIN, LOW); // LED Off
-      Serial.println("Door 2: closed"); // Print status to serial monitor
+      DualSerial("Door 2: closed"); // Print status to serial monitor
       client.publish(DOOR_2_POS_TOPIC, "0"); // MQTT Door 2 closed
     }
   }
