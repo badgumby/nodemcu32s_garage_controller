@@ -101,7 +101,7 @@ I have a Creality Ender 3 v2 with an upgraded Micro Swiss all-metal hotend, and 
 
 To use this controller with [Home Assistant](https://home-assistant.io) you will need to configure an MQTT Broker. Here is a guide on configuring the integrated [MQTT Broker](https://www.home-assistant.io/docs/mqtt/broker/).
 
-Once you have configured an MQTT Broker for use in Home Assistant, you will need to add content below to your `configuration.yaml`, then restart Home Assistant.
+Once you have configured an MQTT Broker for use in Home Assistant, you will need to add the content below to your `configuration.yaml`, then restart Home Assistant.
 
 ```yaml
 cover:
