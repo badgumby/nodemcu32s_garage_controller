@@ -23,6 +23,7 @@ int DOOR_2_STATE = 0;
 int LAST_DOOR_1_STATE = 2;
 int LAST_DOOR_2_STATE = 2;
 int LOOP_COUNTER = 0; // This is used to send checkin every 15 seconds
+int LOOP_COUNTER_WIFI = 0; // This is used to count how many times the Wifi has reconnected
 
 // MQTT settings/topics
 const char *ID = "gumby_garage_controller";  // Name of our device, must be unique
@@ -191,10 +192,16 @@ void setup() {
 }
 
 void loop() {
+  // Restart if it has had to reconnect to Wifi more than 5 times
+  if (LOOP_COUNTER_WIFI >= 5) {
+    ESP.restart();
+  }
   // Reconnect if connection is lost
   if (!client.connected()) {
     reconnect();
-  }
+    LOOP_COUNTER_WIFI++;
+  } 
+
   client.loop();
 
   // Increment loop counter
@@ -216,7 +223,7 @@ void loop() {
       client.publish(DOOR_1_POS_TOPIC, "0"); // MQTT Door 1 closed
     }
   }
-   
+  
   // Monitor magnet switch for Door 2
   if (DOOR_2_STATE != LAST_DOOR_2_STATE) {
     if (DOOR_2_STATE == 1) {
