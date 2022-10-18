@@ -108,23 +108,22 @@ To use this controller with [Home Assistant](https://home-assistant.io) you will
 Once you have configured an MQTT Broker for use in Home Assistant, you will need to add the content below to your `configuration.yaml`, then restart Home Assistant.
 
 ```yaml
-cover:
-  - platform: mqtt
-    command_topic: "gumby_garage/door_1_toggle"
-    name: "Garage Door 1"
-    payload_close: "close"
-    payload_open: "open"
-    device_class: garage
-    position_topic: "gumby_garage/door_1_pos"
-    unique_id: "garage_door_1"
-  - platform: mqtt
-    command_topic: "gumby_garage/door_2_toggle"
-    name: "Garage Door 2"
-    payload_close: "close"
-    payload_open: "open"
-    device_class: garage
-    position_topic: "gumby_garage/door_2_pos"
-    unique_id: "garage_door_2"
+mqtt:
+  cover:
+    - command_topic: "gumby_garage/door_1_toggle"
+      name: "Garage Door 1"
+      payload_close: "close"
+      payload_open: "open"
+      device_class: garage
+      position_topic: "gumby_garage/door_1_pos"
+      unique_id: "garage_door_1"
+    - command_topic: "gumby_garage/door_2_toggle"
+      name: "Garage Door 2"
+      payload_close: "close"
+      payload_open: "open"
+      device_class: garage
+      position_topic: "gumby_garage/door_2_pos"
+      unique_id: "garage_door_2"
 ```
 
 Home Assistant should now be subscribed to the above topics, and will update the `cover.garage_door_1` and `cover.garage_door_2` objects with their statuses.
